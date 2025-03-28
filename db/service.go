@@ -52,7 +52,7 @@ func (p *PostgresService) FindAll() ([]models.Task, error) {
 	return tasks, nil
 }
 
-func (p *PostgresService) CreateOne(task models.Task)(int, error) {
+func (p *PostgresService) CreateOne(task models.Task) (int, error) {
 	var id int
 	err := p.pool.QueryRow(context.Background(),
 		"INSERT INTO tasks (title, description, status) VALUES ($1, $2, $3) RETURNING id",
@@ -67,7 +67,7 @@ func (r *PostgresService) UpdateOne(id int, task models.Task) error {
 	return err
 }
 
-func (r *PostgresService) DeleteTask(id int) error {
+func (r *PostgresService) DeleteOne(id int) error {
 	_, err := r.pool.Exec(context.Background(), "DELETE FROM tasks WHERE id=$1", id)
 	return err
 }
